@@ -1,23 +1,23 @@
 -- EJERCICIO CON INNER JOIN
-SELECT FirstName, DepartmentName FROM dbo.Employees AS e
-INNER JOIN dbo.Departments ON e.DepartmentID = dbo.Departments.DepartmentID
+SELECT FirstName, DepartmentName FROM dbo.Employees AS e -- SELECCIONAMOS NOMBRES DE LOS EMPLEADOS Y EL NOMBRE DE LOS DEPARTAMENTOS
+INNER JOIN dbo.Departments ON e.DepartmentID = dbo.Departments.DepartmentID -- CON EL JOIN TRAEMOS LA TABLA DEPARTMENTS
 
 -- EJERCICIO CON LEFT JOIN    
-SELECT FirstName, ProjectName FROM dbo.Employees AS e
-LEFT JOIN dbo.Projects ON e.EmployeeID = dbo.Projects.LeaderEmployeeID
+SELECT FirstName, ProjectName FROM dbo.Employees AS e -- SELECCIONAMOS NOMBRES DE LOS EMPLEADOS Y EL NOMBRE DE LOS PROYECTOS
+LEFT JOIN dbo.Projects ON e.EmployeeID = dbo.Projects.LeaderEmployeeID -- CON EL JOIN TRAEMOS LA TABLA PROJECTS
 
 -- EJERCICIO CON RIGHT JOIN    
-SELECT ProjectName, FirstName FROM dbo.Employees AS e
-RIGHT JOIN dbo.Projects ON dbo.Projects.LeaderEmployeeID = e.EmployeeID
+SELECT ProjectName, FirstName FROM dbo.Employees AS e -- SELECCIONAMOS EL NOMBRE DE LOS PROYECTOS Y EL NOMBRE DE LOS EMPLEADOS
+RIGHT JOIN dbo.Projects ON dbo.Projects.LeaderEmployeeID = e.EmployeeID -- CON EL JOIN TRAEMOS LA TABLA PROJECTS
 
 -- EJERCICIO CON FULL JOIN    
-SELECT FirstName, EvalDate, Score FROM dbo.Employees AS e
-FULL JOIN dbo.Evaluations ON e.EmployeeID = dbo.Evaluations.EmployeeID
+SELECT FirstName, EvalDate, Score FROM dbo.Employees AS e -- SELECCIONAMOS EL NOMBRE DE LOS EMPLEADOS, LA FECHA DE LA EVALUACIÓN Y EL PUNTAJE
+FULL JOIN dbo.Evaluations ON e.EmployeeID = dbo.Evaluations.EmployeeID -- CON EL JOIN TRAEMOS LA TABLA EVALUATIONS
 
 -- EJERCICIO CON SUBCONSULTA
-SELECT EmployeeID, FirstName, LastName, DepartmentID FROM Employees
+SELECT EmployeeID, FirstName, LastName, DepartmentID FROM Employees -- SELECCIONAMOS EL ID, NOMBRE Y APELLIDO DE LOS EMPLEADOS Y EL DEPARTMENTID
 WHERE DepartmentID IN (
     SELECT DepartmentID FROM Employees
     GROUP BY DepartmentID
-    HAVING COUNT(*) > 10
+    HAVING COUNT(*) > 10 -- SUBCONSULTA PARA CONTAR LOS EMPLEADOS POR DEPARTAMENTO
     );
