@@ -1,23 +1,29 @@
--- EJERCICIO CON INNER JOIN
-SELECT FirstName, DepartmentName FROM dbo.Employees AS e -- SELECCIONAMOS NOMBRES DE LOS EMPLEADOS Y EL NOMBRE DE LOS DEPARTAMENTOS
-INNER JOIN dbo.Departments ON e.DepartmentID = dbo.Departments.DepartmentID -- CON EL JOIN TRAEMOS LA TABLA DEPARTMENTS
+-- INNER JOIN: empleados con su departamento
+SELECT e.FirstName, d.DepartmentName
+FROM dbo.Employees AS e 
+INNER JOIN dbo.Departments AS d ON e.DepartmentID = d.DepartmentID
 
--- EJERCICIO CON LEFT JOIN    
-SELECT FirstName, ProjectName FROM dbo.Employees AS e -- SELECCIONAMOS NOMBRES DE LOS EMPLEADOS Y EL NOMBRE DE LOS PROYECTOS
-LEFT JOIN dbo.Projects ON e.EmployeeID = dbo.Projects.LeaderEmployeeID -- CON EL JOIN TRAEMOS LA TABLA PROJECTS
+-- LEFT JOIN: todos los empleados, tengan o no proyecto liderado
+SELECT e.FirstName, p.ProjectName
+FROM dbo.Employees AS e
+LEFT JOIN dbo.Projects AS p ON e.EmployeeID = p.LeaderEmployeeID
 
--- EJERCICIO CON RIGHT JOIN    
-SELECT ProjectName, FirstName FROM dbo.Employees AS e -- SELECCIONAMOS EL NOMBRE DE LOS PROYECTOS Y EL NOMBRE DE LOS EMPLEADOS
-RIGHT JOIN dbo.Projects ON dbo.Projects.LeaderEmployeeID = e.EmployeeID -- CON EL JOIN TRAEMOS LA TABLA PROJECTS
+-- RIGHT JOIN: todos los proyectos, tengan o no líder asignado
+SELECT p.ProjectName, e.FirstName
+FROM dbo.Employees AS e
+RIGHT JOIN dbo.Projects AS p ON p.LeaderEmployeeID = e.EmployeeID
 
--- EJERCICIO CON FULL JOIN    
-SELECT FirstName, EvalDate, Score FROM dbo.Employees AS e -- SELECCIONAMOS EL NOMBRE DE LOS EMPLEADOS, LA FECHA DE LA EVALUACIÓN Y EL PUNTAJE
-FULL JOIN dbo.Evaluations ON e.EmployeeID = dbo.Evaluations.EmployeeID -- CON EL JOIN TRAEMOS LA TABLA EVALUATIONS
+-- FULL JOIN: todos los empleados y todas las evaluaciones, haya o no coincidencia
+SELECT e.FirstName, ev.EvalDate, ev.Score
+FROM dbo.Employees AS e
+FULL JOIN dbo.Evaluations AS ev ON e.EmployeeID = ev.EmployeeID
 
--- EJERCICIO CON SUBCONSULTA
-SELECT EmployeeID, FirstName, LastName, DepartmentID FROM Employees -- SELECCIONAMOS EL ID, NOMBRE Y APELLIDO DE LOS EMPLEADOS Y EL DEPARTMENTID
-WHERE DepartmentID IN (
-    SELECT DepartmentID FROM Employees
+-- SUBCONSULTA: empleados en departamentos con más de 10 integrantes
+SELECT e.EmployeeID, e.FirstName, e.LastName, e.DepartmentID
+FROM dbo.Employees AS e
+WHERE e.DepartmentID IN (
+    SELECT DepartmentID
+    FROM dbo.Employees
     GROUP BY DepartmentID
-    HAVING COUNT(*) > 10 -- SUBCONSULTA PARA CONTAR LOS EMPLEADOS POR DEPARTAMENTO
-    );
+    HAVING COUNT(*) > 10
+);
